@@ -1,13 +1,11 @@
-# jToker
+# jToker (Ribose fork of  [j-toker](https://github.com/lynndylanhurley/j-toker) )
 
 ### Simple, secure user authentication for jQuery
 
 ![j-toker][logo]
 
-[![npm version](https://badge.fury.io/js/j-toker.svg)](http://badge.fury.io/js/j-toker)
-[![bower version](https://badge.fury.io/bo/j-toker.svg)](http://badge.fury.io/bo/j-toker)
-[![Build Status](https://api.travis-ci.org/lynndylanhurley/j-toker.svg)](https://magnum.travis-ci.com/lynndylanhurley/j-toker)
-[![Test Coverage](https://codeclimate.com/repos/551098d4695680699c005e31/badges/efa4ca64d67204ad1660/coverage.svg)](https://codeclimate.com/repos/551098d4695680699c005e31/feed)
+[![Build Status](https://api.travis-ci.org/riboseinc/j-toker.svg)](https://magnum.travis-ci.com/riboseinc/j-toker)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f7ea27ad287c3c393456/test_coverage)](https://codeclimate.com/github/riboseinc/j-toker/test_coverage)
 
 ### Features:
 
@@ -29,7 +27,7 @@
 
 This project comes bundled with a test app. You can run the demo locally by following these instructions, or you can use it [here][j-toker-demo] in production.
 
-The demo uses [React][react], and the source can be found [here](https://github.com/lynndylanhurley/j-toker/tree/master/demo/src).
+The demo uses [React][react], and the source can be found [here](https://github.com/riboseinc/j-toker/tree/master/demo/src).
 
 ---
 
