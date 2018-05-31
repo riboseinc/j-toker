@@ -1244,7 +1244,7 @@
       }
 
       // persist headers for next request
-      if (!blankHeaders) {
+      if (newHeaders['access-token'] && !blankHeaders) {
         root.auth.persistData(SAVED_CREDS_KEY, newHeaders);
       }
     }
