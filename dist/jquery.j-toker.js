@@ -1,5 +1,5 @@
-/*! j-toker - v0.0.10-beta3 - 2017-10-16
-* Copyright (c) 2017 Lynn Dylan Hurley; Licensed WTFPL */
+/*! j-toker - v0.0.10-beta3 - 2018-05-31
+* Copyright (c) 2018 Lynn Dylan Hurley; Licensed WTFPL */
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
@@ -1206,7 +1206,7 @@
       }
 
       // persist headers for next request
-      if (!blankHeaders) {
+      if (newHeaders['access-token'] && !blankHeaders) {
         root.auth.persistData(SAVED_CREDS_KEY, newHeaders);
       }
     }
