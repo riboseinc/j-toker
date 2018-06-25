@@ -101,6 +101,7 @@
     // base config from which other configs are extended
     this.configBase = {
       apiUrl:                '/api',
+      additionalApiRequestUrls: [],
       signOutPath:           '/auth/sign_out',
       emailSignInPath:       '/auth/sign_in',
       emailRegistrationPath: '/auth',
@@ -1308,7 +1309,17 @@
 
 
   var isApiRequest = function(url) {
-    return (url.match(root.auth.getApiUrl()));
+    var apiRequestUrls = [root.auth.getApiUrl()].concat(root.auth.configs.additionalApiRequestUrls),
+        apiRequest = false;
+
+    $(apiRequestUrls).each(function (i, apiRequestUrl) {
+      if (url.match(apiRequestUrl)) {
+        apiRequest = true;
+        return false;
+      }
+    });
+
+    return apiRequest;
   };
 
 
