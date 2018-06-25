@@ -100,22 +100,23 @@
 
     // base config from which other configs are extended
     this.configBase = {
-      apiUrl:                '/api',
-      signOutPath:           '/auth/sign_out',
-      emailSignInPath:       '/auth/sign_in',
-      emailRegistrationPath: '/auth',
-      accountUpdatePath:     '/auth',
-      accountDeletePath:     '/auth',
-      passwordResetPath:     '/auth/password',
-      passwordUpdatePath:    '/auth/password',
-      tokenValidationPath:   '/auth/validate_token',
-      proxyIf:               function() { return false; },
-      proxyUrl:              '/proxy',
-      forceHardRedirect:     false,
-      storage:               'cookies',
-      cookieExpiry:          14,
-      cookiePath:            '/',
-      initialCredentials:    null,
+      additionalApiRequestUrls: [],
+      apiUrl:                   '/api',
+      signOutPath:              '/auth/sign_out',
+      emailSignInPath:          '/auth/sign_in',
+      emailRegistrationPath:    '/auth',
+      accountUpdatePath:        '/auth',
+      accountDeletePath:        '/auth',
+      passwordResetPath:        '/auth/password',
+      passwordUpdatePath:       '/auth/password',
+      tokenValidationPath:      '/auth/validate_token',
+      proxyIf:                  function() { return false; },
+      proxyUrl:                 '/proxy',
+      forceHardRedirect:        false,
+      storage:                  'cookies',
+      cookieExpiry:             14,
+      cookiePath:               '/',
+      initialCredentials:       null,
 
       passwordResetSuccessUrl: function() {
         return root.location.href;
@@ -168,7 +169,11 @@
 
 
   var isApiRequest = function(url) {
-    return (url.match(root.auth.getApiUrl()));
+    return [root.auth.getApiUrl()]
+      .concat(root.auth.configs.additionalApiRequestUrls)
+      .some(function (apiRequestUrl) {
+        return url.match(apiRequestUrl) !== null;
+      });
   };
 
 
