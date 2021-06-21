@@ -1,5 +1,5 @@
-/*! j-toker - v0.0.10-beta3 - 2017-10-16
-* Copyright (c) 2017 Lynn Dylan Hurley; Licensed WTFPL */
+/*! j-toker - v0.0.10-beta3 - 2021-06-21
+* Copyright (c) 2021 Lynn Dylan Hurley; Licensed WTFPL */
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
@@ -273,6 +273,12 @@
     }
   };
 
+  // private util methods
+  var getFirstObjectKey = function(obj) {
+    for (var key in obj) {
+      return key;
+    }
+  };
 
   Auth.prototype.configure = function(opts, reset) {
     // destroy all session data. useful for testing
@@ -373,6 +379,21 @@
   Auth.prototype.getApiUrl = function() {
     var config = this.getConfig();
     return (config.proxyIf()) ? config.proxyUrl : config.apiUrl;
+  };
+
+
+  // simple string templating. stolen from:
+  // http://stackoverflow.com/questions/14879866/javascript-templating-function-replace-string-and-dont-take-care-of-whitespace
+  var tmpl = function(str, obj) {
+    var replacer = function(wholeMatch, key) {
+      return obj[key] === undefined ? wholeMatch : obj[key];
+    },
+    regexp = new RegExp('{{\\s*([a-z0-9-_]+)\\s*}}',"ig");
+
+    for(var beforeReplace = ""; beforeReplace !== str; str = (beforeReplace = str).replace(regexp, replacer)){
+
+    }
+    return str;
   };
 
 
@@ -1079,6 +1100,11 @@
   };
 
 
+  var unescapeQuotes = function(val) {
+    return val && val.replace(/("|')/g, '');
+  };
+
+
   // abstract reading of session data
   Auth.prototype.retrieveData = function(key) {
     var val = null;
@@ -1160,6 +1186,11 @@
     key = key || this.getCurrentConfigName();
 
     return this.configs[key];
+  };
+
+
+  var isApiRequest = function(url) {
+    return (url.match(root.auth.getApiUrl()));
   };
 
 
@@ -1286,39 +1317,6 @@
   // stub for mock overrides
   Auth.prototype.getQs = function() {
     return $.extend(this.getSearchQs(), this.getAnchorQs());
-  };
-
-
-  // private util methods
-  var getFirstObjectKey = function(obj) {
-    for (var key in obj) {
-      return key;
-    }
-  };
-
-
-  var unescapeQuotes = function(val) {
-    return val && val.replace(/("|')/g, '');
-  };
-
-
-  var isApiRequest = function(url) {
-    return (url.match(root.auth.getApiUrl()));
-  };
-
-
-  // simple string templating. stolen from:
-  // http://stackoverflow.com/questions/14879866/javascript-templating-function-replace-string-and-dont-take-care-of-whitespace
-  var tmpl = function(str, obj) {
-    var replacer = function(wholeMatch, key) {
-      return obj[key] === undefined ? wholeMatch : obj[key];
-    },
-    regexp = new RegExp('{{\\s*([a-z0-9-_]+)\\s*}}',"ig");
-
-    for(var beforeReplace = ""; beforeReplace !== str; str = (beforeReplace = str).replace(regexp, replacer)){
-
-    }
-    return str;
   };
 
 
