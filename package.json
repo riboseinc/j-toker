@@ -1,6 +1,6 @@
 {
   "name": "j-toker",
-  "version": "0.0.10-beta3",
+  "version": "0.0.11-alpha1",
   "description": "Simple, secure token authentication for jQuery.",
   "main": "dist/jquery.j-toker.js",
   "engines": {

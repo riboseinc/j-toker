@@ -1,4 +1,4 @@
-/*! j-toker - v0.0.10-beta3 - 2021-06-21
+/*! j-toker - v0.0.11-alpha1 - 2021-06-21
 * Copyright (c) 2021 Lynn Dylan Hurley; Licensed WTFPL */
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
@@ -95,22 +95,23 @@
 
     // base config from which other configs are extended
     this.configBase = {
-      apiUrl:                '/api',
-      signOutPath:           '/auth/sign_out',
-      emailSignInPath:       '/auth/sign_in',
-      emailRegistrationPath: '/auth',
-      accountUpdatePath:     '/auth',
-      accountDeletePath:     '/auth',
-      passwordResetPath:     '/auth/password',
-      passwordUpdatePath:    '/auth/password',
-      tokenValidationPath:   '/auth/validate_token',
-      proxyIf:               function() { return false; },
-      proxyUrl:              '/proxy',
-      forceHardRedirect:     false,
-      storage:               'cookies',
-      cookieExpiry:          14,
-      cookiePath:            '/',
-      initialCredentials:    null,
+      additionalApiRequestUrls: [],
+      apiUrl:                   '/api',
+      signOutPath:              '/auth/sign_out',
+      emailSignInPath:          '/auth/sign_in',
+      emailRegistrationPath:    '/auth',
+      accountUpdatePath:        '/auth',
+      accountDeletePath:        '/auth',
+      passwordResetPath:        '/auth/password',
+      passwordUpdatePath:       '/auth/password',
+      tokenValidationPath:      '/auth/validate_token',
+      proxyIf:                  function() { return false; },
+      proxyUrl:                 '/proxy',
+      forceHardRedirect:        false,
+      storage:                  'cookies',
+      cookieExpiry:             14,
+      cookiePath:               '/',
+      initialCredentials:       null,
 
       passwordResetSuccessUrl: function() {
         return root.location.href;
@@ -151,6 +152,43 @@
         google:    '/auth/google_oauth2'
       }
     };
+  };
+
+
+  // private util methods
+  var getFirstObjectKey = function(obj) {
+    for (var key in obj) {
+      return key;
+    }
+  };
+
+
+  var isApiRequest = function(url) {
+    return [root.auth.getApiUrl()]
+      .concat(root.auth.configs.additionalApiRequestUrls)
+      .some(function (apiRequestUrl) {
+        return url.match(apiRequestUrl) !== null;
+      });
+  };
+
+
+  // simple string templating. stolen from:
+  // http://stackoverflow.com/questions/14879866/javascript-templating-function-replace-string-and-dont-take-care-of-whitespace
+  var tmpl = function(str, obj) {
+    var replacer = function(wholeMatch, key) {
+      return obj[key] === undefined ? wholeMatch : obj[key];
+    },
+    regexp = new RegExp('{{\\s*([a-z0-9-_]+)\\s*}}',"ig");
+
+    for(var beforeReplace = ""; beforeReplace !== str; str = (beforeReplace = str).replace(regexp, replacer)){
+
+    }
+    return str;
+  };
+
+
+  var unescapeQuotes = function(val) {
+    return val && val.replace(/("|')/g, '');
   };
 
 
@@ -273,12 +311,6 @@
     }
   };
 
-  // private util methods
-  var getFirstObjectKey = function(obj) {
-    for (var key in obj) {
-      return key;
-    }
-  };
 
   Auth.prototype.configure = function(opts, reset) {
     // destroy all session data. useful for testing
@@ -379,21 +411,6 @@
   Auth.prototype.getApiUrl = function() {
     var config = this.getConfig();
     return (config.proxyIf()) ? config.proxyUrl : config.apiUrl;
-  };
-
-
-  // simple string templating. stolen from:
-  // http://stackoverflow.com/questions/14879866/javascript-templating-function-replace-string-and-dont-take-care-of-whitespace
-  var tmpl = function(str, obj) {
-    var replacer = function(wholeMatch, key) {
-      return obj[key] === undefined ? wholeMatch : obj[key];
-    },
-    regexp = new RegExp('{{\\s*([a-z0-9-_]+)\\s*}}',"ig");
-
-    for(var beforeReplace = ""; beforeReplace !== str; str = (beforeReplace = str).replace(regexp, replacer)){
-
-    }
-    return str;
   };
 
 
@@ -1100,11 +1117,6 @@
   };
 
 
-  var unescapeQuotes = function(val) {
-    return val && val.replace(/("|')/g, '');
-  };
-
-
   // abstract reading of session data
   Auth.prototype.retrieveData = function(key) {
     var val = null;
@@ -1189,11 +1201,6 @@
   };
 
 
-  var isApiRequest = function(url) {
-    return (url.match(root.auth.getApiUrl()));
-  };
-
-
   // send auth credentials with all requests to the API
   Auth.prototype.appendAuthHeaders = function(xhr, settings) {
     // fetch current auth headers from storage
@@ -1237,7 +1244,7 @@
       }
 
       // persist headers for next request
-      if (!blankHeaders) {
+      if (newHeaders['access-token'] && !blankHeaders) {
         root.auth.persistData(SAVED_CREDS_KEY, newHeaders);
       }
     }

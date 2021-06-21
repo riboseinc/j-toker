@@ -2,15 +2,15 @@
   "name": "j-toker",
   "title": "j-toker",
   "description": "Token based authentication for jQuery.",
-  "version": "0.0.10-beta3",
-  "homepage": "github.com/lynndylanhurley/j-toker",
+  "version": "0.0.11-alpha1",
+  "homepage": "github.com/riboseinc/j-toker",
   "author": {
-    "name": "Lynn Dylan Hurley",
-    "url": "https://github.com/lynndylanhurley"
+    "name": "Ribose Inc",
+    "url": "https://github.com/riboseinc"
   },
   "repository": {
     "type": "git",
-    "url": "github.com/lynndylanhurley/j-toker"
+    "url": "github.com/riboseinc/j-toker"
   },
   "bugs": "",
   "licenses": [
