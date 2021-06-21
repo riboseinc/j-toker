@@ -159,6 +159,39 @@
   };
 
 
+  // private util methods
+  var getFirstObjectKey = function(obj) {
+    for (var key in obj) {
+      return key;
+    }
+  };
+
+
+  var isApiRequest = function(url) {
+    return (url.match(root.auth.getApiUrl()));
+  };
+
+
+  // simple string templating. stolen from:
+  // http://stackoverflow.com/questions/14879866/javascript-templating-function-replace-string-and-dont-take-care-of-whitespace
+  var tmpl = function(str, obj) {
+    var replacer = function(wholeMatch, key) {
+      return obj[key] === undefined ? wholeMatch : obj[key];
+    },
+    regexp = new RegExp('{{\\s*([a-z0-9-_]+)\\s*}}',"ig");
+
+    for(var beforeReplace = ""; beforeReplace !== str; str = (beforeReplace = str).replace(regexp, replacer)){
+
+    }
+    return str;
+  };
+
+
+  var unescapeQuotes = function(val) {
+    return val && val.replace(/("|')/g, '');
+  };
+
+
   // mostly for testing. reset all config values
   Auth.prototype.reset = function() {
     // clean up session without relying on `getConfig`
@@ -1291,39 +1324,6 @@
   // stub for mock overrides
   Auth.prototype.getQs = function() {
     return $.extend(this.getSearchQs(), this.getAnchorQs());
-  };
-
-
-  // private util methods
-  var getFirstObjectKey = function(obj) {
-    for (var key in obj) {
-      return key;
-    }
-  };
-
-
-  var unescapeQuotes = function(val) {
-    return val && val.replace(/("|')/g, '');
-  };
-
-
-  var isApiRequest = function(url) {
-    return (url.match(root.auth.getApiUrl()));
-  };
-
-
-  // simple string templating. stolen from:
-  // http://stackoverflow.com/questions/14879866/javascript-templating-function-replace-string-and-dont-take-care-of-whitespace
-  var tmpl = function(str, obj) {
-    var replacer = function(wholeMatch, key) {
-      return obj[key] === undefined ? wholeMatch : obj[key];
-    },
-    regexp = new RegExp('{{\\s*([a-z0-9-_]+)\\s*}}',"ig");
-
-    for(var beforeReplace = ""; beforeReplace !== str; str = (beforeReplace = str).replace(regexp, replacer)){
-
-    }
-    return str;
   };
 
 
