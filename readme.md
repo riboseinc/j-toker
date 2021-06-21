@@ -4,10 +4,10 @@
 
 ![j-toker][logo]
 
-[![npm version](https://badge.fury.io/js/j-toker.svg)](http://badge.fury.io/js/j-toker)
-[![bower version](https://badge.fury.io/bo/j-toker.svg)](http://badge.fury.io/bo/j-toker)
-[![Build Status](https://api.travis-ci.org/lynndylanhurley/j-toker.svg)](https://magnum.travis-ci.com/lynndylanhurley/j-toker)
-[![Test Coverage](https://codeclimate.com/repos/551098d4695680699c005e31/badges/efa4ca64d67204ad1660/coverage.svg)](https://codeclimate.com/repos/551098d4695680699c005e31/feed)
+[![CodeQL](https://github.com/riboseinc/j-toker/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/riboseinc/j-toker/actions/workflows/codeql-analysis.yml)
+[![Node.js CI](https://github.com/riboseinc/j-toker/actions/workflows/node.js.yml/badge.svg)](https://github.com/riboseinc/j-toker/actions/workflows/node.js.yml)
+
+This is a fork of [lynndylanhurley/j-toker](https://github.com/lynndylanhurley/j-toker).
 
 ### Features:
 
